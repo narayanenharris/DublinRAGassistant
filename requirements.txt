@@ -1,0 +1,11 @@
+langchain==0.0.267
+langchain-openai
+openai
+pgvector
+psycopg[binary]
+fastapi
+uvicorn
+jinja2
+python-dotenv
+pydantic
+langchain-community

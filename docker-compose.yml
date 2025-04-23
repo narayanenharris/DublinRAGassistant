@@ -1,0 +1,29 @@
+# docker-compose.yml (Corrected app ports)
+version: '3'
+
+services:
+  db:
+    image: ankane/pgvector:latest
+    environment:
+      POSTGRES_DB: dublin_rag
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: testpass123
+    ports:
+      - "5432:5432" # Keep this if you want to access DB from host on 5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    ports:
+      - "8000:8000" 
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgres://postgres:testpass123@db:5432/dublin_rag # <--- Use 'db' as the host here
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - ./data:/app/data
+
+volumes:
+  postgres_data:

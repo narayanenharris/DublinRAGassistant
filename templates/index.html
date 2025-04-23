@@ -1,0 +1,160 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f5f5;
+            padding-top: 20px;
+        }
+        .chat-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+        }
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .user-message {
+            background-color: #e3f2fd;
+            margin-left: 20%;
+        }
+        .assistant-message {
+            background-color: #f1f1f1;
+            margin-right: 20%;
+        }
+        .sources {
+            font-size: 0.8em;
+            color: #666;
+            margin-top: 5px;
+        }
+        .dublin-header {
+            color: #008751; /* Dublin green */
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="dublin-header">Dublin RAG Assistant</h1>
+        <p class="text-center mb-4">Ask questions about Dublin's urban planning and development</p>
+        
+        <div class="chat-container">
+            <div class="chat-messages" id="chatMessages">
+                <div class="message assistant-message">
+                    Hello! I'm the Dublin RAG Assistant. I can answer questions about Dublin's urban planning and development based on official city documents. How can I help you today?
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <input type="text" id="userQuery" class="form-control" placeholder="Ask a question about Dublin planning...">
+                <button class="btn btn-primary" type="button" id="submitButton">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatMessages = document.getElementById('chatMessages');
+            const userQuery = document.getElementById('userQuery');
+            const submitButton = document.getElementById('submitButton');
+
+            function addMessage(content, isUser) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${isUser ? 'user-message' : 'assistant-message'}`;
+                
+                if (isUser) {
+                    messageDiv.textContent = content;
+                } else {
+                    // For assistant messages, handle the sources
+                    const answerContent = content.answer;
+                    const sources = content.sources;
+                    
+                    // Create answer paragraph
+                    const answerParagraph = document.createElement('p');
+                    answerParagraph.textContent = answerContent;
+                    messageDiv.appendChild(answerParagraph);
+                    
+                    // Add sources if available
+                    if (sources && sources.length > 0) {
+                        const sourcesDiv = document.createElement('div');
+                        sourcesDiv.className = 'sources';
+                        
+                        const sourcesTitle = document.createElement('p');
+                        sourcesTitle.textContent = 'Sources:';
+                        sourcesTitle.style.fontWeight = 'bold';
+                        sourcesTitle.style.marginBottom = '3px';
+                        sourcesDiv.appendChild(sourcesTitle);
+                        
+                        sources.forEach(source => {
+                            const sourceItem = document.createElement('p');
+                            sourceItem.textContent = `${source.title}, Page ${source.page}`;
+                            sourceItem.style.margin = '0';
+                            sourcesDiv.appendChild(sourceItem);
+                        });
+                        
+                        messageDiv.appendChild(sourcesDiv);
+                    }
+                }
+                
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            async function sendQuery() {
+                const query = userQuery.value.trim();
+                if (!query) return;
+                
+                // Add user message
+                addMessage(query, true);
+                userQuery.value = '';
+                
+                try {
+                    const response = await fetch('/query', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ query })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    
+                    const data = await response.json();
+                    addMessage(data, false);
+                } catch (error) {
+                    console.error('Error:', error);
+                    addMessage({ answer: "Sorry, there was an error processing your request.", sources: [] }, false);
+                }
+            }
+
+            submitButton.addEventListener('click', sendQuery);
+            userQuery.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendQuery();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
