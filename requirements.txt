@@ -1,11 +1,13 @@
 langchain==0.0.267
-langchain-openai
-openai
-pgvector
+langchain-community
 psycopg[binary]
 fastapi
 uvicorn
 jinja2
 python-dotenv
 pydantic
-langchain-community
+sentence-transformers
+tqdm
+numpy
+requests
+tenacity
