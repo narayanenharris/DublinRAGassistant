@@ -7,18 +7,25 @@ from local_embedding_model import LocalEmbeddingModel
 import json
 import csv
 from pathlib import Path
+import psycopg
+from sentence_transformers import SentenceTransformer
+import torch
+import gc
+from dotenv import load_dotenv
 
 class DublinDataProcessor:
     def __init__(self):
-        self.embedding_model = LocalEmbeddingModel()
+        load_dotenv()
+        self.db_url = os.getenv("DATABASE_URL", "postgres://postgres:testpass123@localhost:5432/postgres")
+        self.embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
         self.text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=1000,
             chunk_overlap=100,
             length_function=len,
         )
+        self.batch_size = 32 if torch.cuda.is_available() else 16
 
     def process_file(self, file_path: str, format_type: str):
-        """Process a file based on its format."""
         if format_type == 'pdf':
             return self.load_pdf(file_path)
         elif format_type == 'csv':
@@ -28,39 +35,31 @@ class DublinDataProcessor:
         else:
             raise ValueError(f"Unsupported file format: {format_type}")
 
+
     def load_pdf(self, file_path: str):
-        """Load a PDF document and split it into chunks."""
         try:
-            # Use PdfReader instead of PyPDFLoader
             pdf = PdfReader(file_path)
             pages = []
-            
             for page_num, page in enumerate(pdf.pages, 1):
                 text = page.extract_text()
-                
-                # Create metadata
                 metadata = {
                     "source": file_path,
                     "title": os.path.basename(file_path),
                     "page": page_num,
                     "document_type": "Development Plan" if "Development Plan" in os.path.basename(file_path) else "Planning Document"
                 }
-                
-                # Create document-like object
                 doc = type('Document', (), {
                     'page_content': text,
                     'metadata': metadata
                 })
                 pages.append(doc)
-
-            # Split into chunks
             chunks = self.text_splitter.split_documents(pages)
             return chunks
-            
         except Exception as e:
             print(f"Error loading or processing PDF {file_path}: {e}")
             return []
         
+
     def load_csv(self, file_path: str):
         chunks = []
         with open(file_path, 'r', encoding='utf-8') as f:
@@ -78,6 +77,7 @@ class DublinDataProcessor:
                 }))
         return chunks    
 
+
     def load_json(self, file_path: str):
         chunks = []
         with open(file_path, 'r', encoding='utf-8') as f:
@@ -88,7 +88,6 @@ class DublinDataProcessor:
                 "page": 1,
                 "document_type": "JSON Data"
             }
-            # Handle both array and object JSON
             if isinstance(data, list):
                 for item in data:
                     chunks.append(type('Document', (), {
@@ -103,12 +102,11 @@ class DublinDataProcessor:
         return chunks    
 
     def process_directory(self, directory_path: str):
-        """Process all PDF files in a directory."""
+
         all_chunks = []
         if not os.path.isdir(directory_path):
             print(f"Error: Directory not found at {directory_path}")
             return []
-
         for root, _, files in os.walk(directory_path):
             for file in files:
                 if file.lower().endswith('.pdf'):
@@ -125,30 +123,40 @@ class DublinDataProcessor:
                         print(f"Failed to process {file_path}: {e}")
         return all_chunks
 
+
     def generate_embeddings(self, chunks):
-        """Generate embeddings for document chunks with progress bar."""
         if not chunks:
             print("No chunks provided to generate embeddings.")
-            return []
-        
+            return [] 
         try:
             total_chunks = len(chunks)
             print(f"\nGenerating embeddings for {total_chunks} chunks...")
             embeddings_list = []
-            
-            # Create progress bar
-            with tqdm(total=total_chunks, desc="Generating embeddings", unit="chunk") as pbar:
-                for chunk in chunks:
-                    try:
-                        embedding = self.embedding_model.embed_query(chunk.page_content)
-                        embeddings_list.append(embedding)
-                        pbar.update(1)
-                    except Exception as e:
-                        print(f"\nError generating embedding: {str(e)}")
-                        continue
-            
-            successful_embeddings = len(embeddings_list)
-            print(f"\nEmbeddings generated successfully: {successful_embeddings}/{total_chunks}")
+            for i in tqdm(range(0, total_chunks, self.batch_size), desc="Processing batches"):
+                batch = chunks[i:i + self.batch_size]
+                texts = [chunk.page_content for chunk in batch]
+                try:
+                    batch_embeddings = self.embedding_model.encode(texts, show_progress_bar=False)
+                    embeddings_list.extend(batch_embeddings)
+                    with psycopg.connect(self.db_url) as conn:
+                        with conn.cursor() as cur:
+                            for chunk, embedding in zip(batch, batch_embeddings):
+                                cur.execute("""
+                                    INSERT INTO documents (text_content, metadata, embedding)
+                                    VALUES (%s, %s, %s)
+                                """, (
+                                    chunk.page_content,
+                                    json.dumps(chunk.metadata),
+                                    embedding.tolist()
+                                ))
+                        conn.commit()
+                    if torch.cuda.is_available():
+                        torch.cuda.empty_cache()
+                    gc.collect()  
+                except Exception as e:
+                    print(f"\nError in batch {i}: {str(e)}")
+                    continue          
+            print(f"\nEmbeddings generated and stored: {len(embeddings_list)}/{total_chunks}")
             return embeddings_list
             
         except Exception as e:

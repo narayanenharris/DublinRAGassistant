@@ -4,11 +4,11 @@ A Retrieval-Augmented Generation (RAG) assistant for Dublin city planning docume
 
 ## Features
 
-- 🔍 Semantic search through Dublin planning documents
-- 💡 AI-powered document analysis
-- 🌐 Web interface for easy access
-- 📊 Vector-based similarity search
-- 🔄 Real-time query processing
+-  Semantic search through Dublin planning documents
+-  AI-powered document analysis
+-  Web interface for easy access
+-  Vector-based similarity search
+-  Real-time query processing
 
 ## Setup Options
 

@@ -1,0 +1,47 @@
+{"timestamp": "2025-04-27T17:53:51.466700", "query": "hey", "type": "short_query", "length": 3}
+{"timestamp": "2025-04-27T17:54:10.795804", "query": "what are Dublin", "metrics": {"query_time": 7.346524000167847, "search_time": 7.345526933670044, "processing_time": 0.0009970664978027344, "num_results": 8, "avg_similarity": 0.16757987965509047}}
+{"timestamp": "2025-04-28T21:02:20.935819", "query": "hey", "type": "short_query", "length": 3}
+{"timestamp": "2025-04-28T21:06:57.682670", "query": "hey", "type": "short_query", "length": 3}
+{"timestamp": "2025-04-28T21:07:41.303267", "query": "hwey", "type": "short_query", "length": 4}
+{"timestamp": "2025-04-28T21:10:03.349775", "query": "hey", "type": "short_query", "length": 3}
+{"timestamp": "2025-04-28T22:08:32.946581", "query": "hey", "type": "short_query", "length": 3}
+{"timestamp": "2025-04-28T22:08:54.055392", "query": "what are dublins future plan ?", "metrics": {"query_time": 7.394001722335815, "search_time": 7.3929970264434814, "processing_time": 0.0010046958923339844, "num_results": 8, "avg_similarity": 0.32040701913846625}}
+{"timestamp": "2025-04-28T22:09:01.932936", "query": "hey", "type": "short_query", "length": 3}
+{"timestamp": "2025-04-28T22:09:06.107134", "query": "hi", "type": "short_query", "length": 2}
+{"timestamp": "2025-04-28T22:09:22.317860", "query": "What are Dublin's Culture plan", "metrics": {"query_time": 1.9920024871826172, "search_time": 1.9920024871826172, "processing_time": 0.0, "num_results": 8, "avg_similarity": 0.2681272135521655}}
+{"timestamp": "2025-04-28T22:26:00.015140", "query": "What are dublins future plans", "metrics": {"query_time": 2.348433256149292, "search_time": 2.348433256149292, "processing_time": 0.0, "num_results": 8, "avg_similarity": 0.30996112062408804}}
+{"timestamp": "2025-04-29T11:10:15.453420", "query": "What are Dublins plans for population", "metrics": {"query_time": 7.9598071575164795, "search_time": 7.9598071575164795, "processing_time": 0.0, "num_results": 8, "avg_similarity": 0.3191541151769487}}
+{"timestamp": "2025-04-29T11:26:59.596292", "query": "hey", "type": "short_query", "length": 3}
+{"timestamp": "2025-04-29T11:27:21.091654", "query": "What are dublin's plan for population", "metrics": {"query_time": 3.921694040298462, "search_time": 3.9206929206848145, "processing_time": 0.001001119613647461, "num_results": 8, "avg_similarity": 0.30521938703038887}}
+{"timestamp": "2025-04-29T12:08:50.551330", "query": "hey", "type": "short_query", "length": 3}
+{"timestamp": "2025-04-29T12:09:15.508940", "query": "what is Dublin's plan for population", "metrics": {"query_time": 7.6839845180511475, "search_time": 7.682986497879028, "processing_time": 0.0009980201721191406, "num_results": 8, "avg_similarity": 0.30865225457652323}}
+{"timestamp": "2025-04-29T17:21:54.764104", "query": "hey", "type": "short_query", "length": 3}
+{"timestamp": "2025-04-29T17:22:26.463607", "query": "What is dublin plan for pollution", "type": "no_results"}
+{"timestamp": "2025-04-29T18:49:13.897479", "query": "hey", "type": "short_query", "length": 3}
+{"timestamp": "2025-04-29T18:49:47.902586", "query": "What is Dublin's plan for population", "metrics": {"query_time": 19.094049215316772, "search_time": 19.093273162841797, "processing_time": 0.0004515647888183594, "num_results": 6, "avg_similarity": 0.32374668167781234}}
+{"timestamp": "2025-04-29T18:57:14.192237", "query": "hey", "type": "short_query", "length": 3}
+{"timestamp": "2025-04-29T18:57:30.750550", "query": "What are Dublins plan for population", "metrics": {"query_time": 4.269760370254517, "search_time": 4.269237279891968, "processing_time": 0.0004119873046875, "num_results": 5, "avg_similarity": 0.31446194610448214}}
+{"timestamp": "2025-04-29T19:05:24.475009", "query": "What Dublin's future plans for population", "metrics": {"query_time": 6.106419801712036, "search_time": 6.103838920593262, "processing_time": 0.0023965835571289062, "num_results": 8, "avg_similarity": 0.34123529771543143}}
+{"timestamp": "2025-04-29T19:06:18.917430", "query": "hey", "type": "short_query", "length": 3}
+{"timestamp": "2025-04-29T19:06:37.282443", "query": "What is Dublin's plan for population", "metrics": {"query_time": 8.41864824295044, "search_time": 8.417419195175171, "processing_time": 0.0007331371307373047, "num_results": 6, "avg_similarity": 0.32374668167781234}}
+{"timestamp": "2025-04-29T19:07:01.896711", "query": "What is Dublin's plan for population", "metrics": {"query_time": 4.144708633422852, "search_time": 4.143652677536011, "processing_time": 0.000995635986328125, "num_results": 6, "avg_similarity": 0.32374668167781234}}
+{"timestamp": "2025-04-30T09:32:33.480084", "query": "What are Dublin's development plans for sustainable housing?", "metrics": {"query_time": 10.554522037506104, "search_time": 10.552028179168701, "processing_time": 0.0022614002227783203, "num_results": 3, "avg_similarity": 0.3767296785745086}}
+{"timestamp": "2025-04-30T09:50:55.477902", "query": "hey", "type": "short_query", "length": 3}
+{"timestamp": "2025-04-30T09:53:12.849040", "query": "hey", "type": "short_query", "length": 3}
+{"timestamp": "2025-04-30T09:57:29.197054", "query": "hey", "type": "short_query", "length": 3}
+{"timestamp": "2025-04-30T09:57:49.156187", "query": "hey", "type": "short_query", "length": 3}
+{"timestamp": "2025-04-30T10:03:26.963088", "query": "hey", "type": "short_query", "length": 3}
+{"timestamp": "2025-04-30T10:03:56.628546", "query": "What are Dublin's plan for population", "metrics": {"query_time": 11.395092487335205, "search_time": 11.394042253494263, "processing_time": 0.0007317066192626953, "num_results": 3, "avg_similarity": 0.33340473449150104}}
+{"timestamp": "2025-04-30T10:07:27.511542", "query": "Hey", "type": "short_query", "length": 3}
+{"timestamp": "2025-04-30T10:07:54.605328", "query": "HEy", "type": "short_query", "length": 3}
+{"timestamp": "2025-04-30T10:09:15.148949", "query": "What is Dublin's plan about population ?", "type": "no_results"}
+{"timestamp": "2025-04-30T10:09:35.529860", "query": "What is Dublin's plan about Culture", "metrics": {"query_time": 1.5033245086669922, "search_time": 1.4958715438842773, "processing_time": 0.006613254547119141, "num_results": 3, "avg_similarity": 0.33459848329875336}}
+{"timestamp": "2025-04-30T10:12:27.333498", "query": "Hey", "type": "short_query", "length": 3}
+{"timestamp": "2025-04-30T10:13:15.049235", "query": "Hey", "type": "short_query", "length": 3}
+{"timestamp": "2025-04-30T10:13:36.142876", "query": "What is Dublin's plan for Culture", "metrics": {"query_time": 3.8007853031158447, "search_time": 3.8000435829162598, "processing_time": 0.0006628036499023438, "num_results": 3, "avg_similarity": 0.33039710555633167}}
+{"timestamp": "2025-04-30T10:16:03.028480", "query": "HI", "type": "short_query", "length": 2}
+{"timestamp": "2025-04-30T10:16:55.784973", "query": "What is dublins planning for culture", "metrics": {"query_time": 2.6884210109710693, "search_time": 2.6861729621887207, "processing_time": 0.0022056102752685547, "num_results": 3, "avg_similarity": 0.3467387268794408}}
+{"timestamp": "2025-04-30T11:08:33.891782", "query": "hey", "type": "short_query", "length": 3}
+{"timestamp": "2025-04-30T11:10:28.703963", "query": "hey", "type": "short_query", "length": 3}
+{"timestamp": "2025-04-30T11:11:03.637635", "query": "What is Dublin's plans about children parks", "type": "no_results"}
+{"timestamp": "2025-04-30T11:11:25.409470", "query": "What is Dublin's plan for culture", "metrics": {"query_time": 2.3416945934295654, "search_time": 2.339552402496338, "processing_time": 0.0016865730285644531, "num_results": 3, "avg_similarity": 0.33039710555633167}}

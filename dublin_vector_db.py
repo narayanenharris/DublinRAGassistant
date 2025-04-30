@@ -11,10 +11,7 @@ class DublinVectorDB:
         """Set up the database schema for storing Dublin planning documents."""
         try:
             with psycopg.connect(self.connection_string) as conn:
-                # Enable vector extension
                 conn.execute("CREATE EXTENSION IF NOT EXISTS vector")
-                
-                # Create tables
                 conn.execute("""
                     CREATE TABLE IF NOT EXISTS documents (
                         id SERIAL PRIMARY KEY,
@@ -36,7 +33,6 @@ class DublinVectorDB:
                     )
                 """)
                 
-                # Create index for faster similarity search
                 try:
                     conn.execute("""
                         CREATE INDEX IF NOT EXISTS chunks_embedding_idx 
@@ -52,7 +48,6 @@ class DublinVectorDB:
             raise
     
     def store_document(self, title: str, source: str, document_type: str) -> int:
-        """Store document metadata and return document ID."""
         try:
             with psycopg.connect(self.connection_string) as conn:
                 cursor = conn.execute(
@@ -65,17 +60,13 @@ class DublinVectorDB:
             raise
     
     def store_chunks(self, document_id: int, chunks: List, embeddings: List) -> None:
-        """Store document chunks and their embeddings."""
         try:
             with psycopg.connect(self.connection_string) as conn:
                 register_vector(conn)
-                
-                # Use executemany for better performance
                 chunk_data = [
                     (document_id, chunk.page_content, chunk.metadata.get("page", 0), embedding)
                     for chunk, embedding in zip(chunks, embeddings)
                 ]
-                
                 conn.executemany(
                     """
                     INSERT INTO chunks (document_id, content, page_number, embedding) 
@@ -88,11 +79,9 @@ class DublinVectorDB:
             raise
     
     def query_similar(self, query_embedding: List[float], limit: int = 5) -> List[Dict]:
-        """Find chunks similar to the query."""
         try:
             with psycopg.connect(self.connection_string) as conn:
-                register_vector(conn)
-                
+                register_vector(conn)               
                 cursor = conn.execute("""
                     SELECT 
                         c.content, 

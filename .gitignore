@@ -5,6 +5,3 @@ __pycache__/
 *.db
 *.sqlite3
 *.log
-# Add any large data files you don't want in Git
-data/raw_pdfs/ # Example
-chroma_db_store/ # Example if Chroma persists to disk here

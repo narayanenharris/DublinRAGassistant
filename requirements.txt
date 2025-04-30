@@ -1,4 +1,3 @@
-langchain==0.0.267
 langchain-community
 psycopg[binary]
 fastapi
@@ -11,3 +10,5 @@ tqdm
 numpy
 requests
 tenacity
+psutil==5.9.5
+pgvector
